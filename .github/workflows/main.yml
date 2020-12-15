@@ -1,7 +1,7 @@
 name: CI Workflow
 
 env:
-  DOCKERHUB_TAG: "foorschtbar/awtrix-docker"
+  DOCKERHUB_TAG: "foorschtbar/awtrix2"
   DOCKERHUB_SHORT_DESCRIPTION: "Multi-Arch/Multi-Platform Docker Container for Awtrix2"
   DOCKERHUB_README_FILE: "README.md"
 

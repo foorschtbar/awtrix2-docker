@@ -1,6 +1,7 @@
-#FROM anapsix/alpine-java:8_jdk
-#FROM armv7/armhf-java8
-#FROM arm64v8/openjdk
+# Arch will be changed while building from GitHub Actions CI Workflow
+# anapsix/alpine-java:8_jdk
+# armv7/armhf-java8
+# arm64v8/openjdk
 ARG arch=armv7/armhf-java8
 FROM ${arch}
 
