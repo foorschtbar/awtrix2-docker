@@ -1,7 +1,7 @@
 # Docker Image for AWTRIX2
 
 [
-  ![](https://img.shields.io/docker/v/foorschtbar/awtrix2?style=plastic)
+  ![](https://img.shields.io/docker/v/foorschtbar/awtrix2?style=plastic&sort=date)
   ![](https://img.shields.io/docker/pulls/foorschtbar/awtrix2?style=plastic)
   ![](https://img.shields.io/docker/stars/foorschtbar/awtrix2?style=plastic)
   ![](https://img.shields.io/docker/image-size/foorschtbar/awtrix2?style=plastic)
@@ -25,9 +25,7 @@ version: "3"
 
 services:
   awtrix:
-    image: foorschtbar/awtrix-docker
-    container_name: <changeme>-web
-    hostname: <changeme>
+    image: foorschtbar/awtrix2
     restart: unless-stopped
     ports:
       - "7000:7000"
