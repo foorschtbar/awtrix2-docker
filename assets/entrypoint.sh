@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -eux
+set -e
 
 AWTRIX_BETA=${AWTRIX_BETA:-false}
 
