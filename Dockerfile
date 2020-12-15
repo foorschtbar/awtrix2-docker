@@ -2,8 +2,13 @@
 # anapsix/alpine-java:8_jdk
 # armv7/armhf-java8
 # arm64v8/openjdk
-ARG CIFROM=arm64v8/openjdk
-FROM ${CIFROM}
+ARG CI_FROM=null
+FROM ${CI_FROM}
+RUN echo "Set FROM to $CI_FROM"
+
+# Output target platform
+ARG TARGETPLATFORM
+RUN echo "Building for ARCH $TARGETPLATFORM"
 
 # Set workdir and ports
 WORKDIR /data

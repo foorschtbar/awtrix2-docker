@@ -30,6 +30,7 @@ services:
     ports:
       - "7000:7000"
       - "7001:7001"
+      - "5568:5568"
     #network_mode: host
     volumes:
       - ./data:/data
@@ -68,6 +69,7 @@ If you have AWTRIX Premium, run the Docker Container in Host-Mode, because a reb
     #ports:
     # - "7000:7000"
     # - "7001:7001"
+    # - "5568:5568"
     network_mode: host
 ```
 
