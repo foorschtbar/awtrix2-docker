@@ -50,7 +50,7 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ env.DOCKERHUB_TAG }}:${{ matrix.arch }}-latest
-          build-args: ARCH=${{ matrix.from }}
+          build-args: CI_FROM=${{ matrix.from }}
           platforms: ${{ matrix.platform }}
 
       - name: Image digests

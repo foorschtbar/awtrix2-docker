@@ -2,6 +2,8 @@
 
 set -eux
 
+AWTRIX_BETA=${AWTRIX_BETA:-false}
+
 if [ "$AWTRIX_BETA" = true ] ; then
     AWTRIX_DL_URL=https://blueforcer.de/awtrix/beta/awtrix.jar
 else
