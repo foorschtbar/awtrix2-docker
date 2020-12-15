@@ -2,8 +2,8 @@
 # anapsix/alpine-java:8_jdk
 # armv7/armhf-java8
 # arm64v8/openjdk
-ARG CI_FROM=null
-FROM ${CI_FROM}
+ARG CIFROM=arm64v8/openjdk
+FROM ${CIFROM}
 
 # Set workdir and ports
 WORKDIR /data
