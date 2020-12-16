@@ -1,15 +1,24 @@
 #!/bin/sh
 
 set -e
+TARGET_FILE=/data/awtrix.jar
+AWTRIX_UPDATE_CHANNEL=${AWTRIX_UPDATE_CHANNEL:-stable}
+AWTRIX_DL_URL=https://blueforcer.de/awtrix/$AWTRIX_UPDATE_CHANNEL/awtrix.jar
+AWTRIX_AUTOUPDATE=${AWTRIX_AUTOUPDATE:-true}
 
-AWTRIX_BETA=${AWTRIX_BETA:-false}
-
-if [ "$AWTRIX_BETA" = true ] ; then
-    AWTRIX_DL_URL=https://blueforcer.de/awtrix/beta/awtrix.jar
+if [ "$AWTRIX_AUTOUPDATE" = true ] || [ ! -f "$TARGET_FILE" ]; then
+    echo "Download Host JAR from $AWTRIX_DL_URL"
+    echo "Please wait..."
+    if wget $AWTRIX_DL_URL -q -O $TARGET_FILE  ; then
+        echo "Download finished!"
+        
+    else 
+        echo "Download failed!"
+        exit 1
+    fi
 else
-    AWTRIX_DL_URL=https://blueforcer.de/awtrix/stable/awtrix.jar
+     echo "Skip Download"
 fi
 
-wget $AWTRIX_DL_URL -O /data/awtrix.jar
-
-java -jar /data/awtrix.jar
+echo "Start AWTRIX Host..."
+java -jar $TARGET_FILE  

@@ -11,7 +11,7 @@
   ![](https://img.shields.io/github/last-commit/foorschtbar/awtrix2-docker?style=plastic)
 ](https://github.com/foorschtbar/awtrix2-docker)
 
-Multi-Arch/Multi-Platform Docker Container for [AWTRIX2](https://blueforcer.de/2019/01/04/awtrix-2-0/). The Container downloads latest AWTRIX Host (Server) on start or restart. Default is the `stable` version, but you could also switch to the `beta` branch.
+Multi-Arch/Multi-Platform Docker Container for [AWTRIX2](https://blueforcer.de/2019/01/04/awtrix-2-0/). The Container downloads latest AWTRIX Host (Server) on start or restart, but you could disabled this. Default is the `stable` version, but you could also switch to the `beta` or `nightly` branch.
 
 * GitHub: [foorschtbar/awtrix-docker](https://github.com/foorschtbar/awtrix-docker)
 * Docker Hub: [foorschtbar/awtrix2](https://hub.docker.com/r/foorschtbar/awtrix2)
@@ -31,13 +31,12 @@ services:
       - "7000:7000"
       - "7001:7001"
       - "5568:5568"
-    #network_mode: host
     volumes:
       - ./data:/data
+      - /sys/class/net/<your network interface>/address:/data/hostmac
     environment:
       - TZ=Europe/Berlin
       - JAVA_TOOL_OPTIONS="-Duser.language=de -Duser.country=DE"
-      - AWTRIX_BETA=false
 ```
 
 ### Persistent data
@@ -63,7 +62,14 @@ If you want AWTRIX to automatically display some apps like **DayOfTheWeek** in y
 
 ### Premium Users
 
-If you have AWTRIX Premium, run the Docker Container in Host-Mode, because a rebuild of the Container triggers a change in the hardware ID. See [awtrixdocs.blueforder.de](https://awtrixdocs.blueforcer.de/#/de-de/premium?id=fehlerbehebung).
+AWTRIX Premium uses the MAC-Adress of the primary network interface for license binding. To avoid losing premium features (See [awtrixdocs.blueforder.de](https://awtrixdocs.blueforcer.de/#/de-de/premium?id=fehlerbehebung)), pass the host MAC to AWTRIX:
+
+```yml
+    volumes:
+      - /sys/class/net/<eth0 or different network interface>/address:/data/hostmac
+```
+
+or run the container in host mode:
 
 ```yml
     #ports:
@@ -73,13 +79,26 @@ If you have AWTRIX Premium, run the Docker Container in Host-Mode, because a reb
     network_mode: host
 ```
 
-### Beta versions
+### Autoupdate
 
-To use beta version, set environment variable AWTRIX_BETA to true
+To disable autoupdate on start/restart, set `AWTRIX_AUTOUPDATE` to `false`:
 
 ```yml
     environment:
-        AWTRIX_BETA=true
+      - AWTRIX_AUTOUPDATE=false
+```
+
+### Beta/Nightly versions
+
+To use beta or nightly versions, set environment variable AWTRIX_UPDATE_CHANNEL to
+
+* `beta` or
+* `nightly`
+
+Example:
+```yml
+    environment:
+      - AWTRIX_UPDATE_CHANNEL=beta
 ```
 
 ### Credits
