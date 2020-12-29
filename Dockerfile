@@ -2,7 +2,7 @@ FROM alpine:3
 
 # Install openjdk8
 RUN set -eux; \
-    apk add --no-cache openjdk8-jre
+    apk add --no-cache openjdk7-jre
 
 # Set workdir and ports
 WORKDIR /data
