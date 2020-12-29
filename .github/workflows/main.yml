@@ -31,10 +31,12 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
+      - uses: nelonoel/branch-name@v1.0.1
+
       - name: tag suffix
         id: tag_suffix
         run: |
-          if [ $EVENT_NAME == 'develop' ]
+          if [ ${BRANCH_NAME} == 'develop' ]
           then
             echo "::set-output name=suffix::develop"
           else
