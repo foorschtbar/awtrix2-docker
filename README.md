@@ -33,7 +33,7 @@ services:
       - "5568:5568"
     volumes:
       - ./data:/data
-      - /sys/class/net/<your network interface>/address:/data/hostmac
+      - /sys/class/net/<your network interface>/address:/data/hostmac:ro
     environment:
       - TZ=Europe/Berlin
       - JAVA_TOOL_OPTIONS="-Duser.language=de -Duser.country=DE"
