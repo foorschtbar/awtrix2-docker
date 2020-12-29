@@ -90,7 +90,7 @@ To disable autoupdate on start/restart, set `AWTRIX_AUTOUPDATE` to `false`:
 
 ### Beta/Nightly versions
 
-To use beta or nightly versions, set environment variable AWTRIX_UPDATE_CHANNEL to
+To use beta or nightly versions, set environment variable AWTRIX_UPDATE_CHANNEL to:
 
 * `beta` or
 * `nightly`
