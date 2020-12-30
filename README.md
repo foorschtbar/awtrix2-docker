@@ -88,6 +88,15 @@ To disable autoupdate on start/restart, set `AWTRIX_AUTOUPDATE` to `false`:
       - AWTRIX_AUTOUPDATE=false
 ```
 
+### Logger output
+
+This container logs as default to stdout. You can change this back to file (AWTRIX default):
+
+```yml
+    environment:
+      - AWTRIX_LOGGER=file
+```
+
 ### Beta/Nightly versions
 
 To use beta or nightly versions, set environment variable AWTRIX_UPDATE_CHANNEL to:

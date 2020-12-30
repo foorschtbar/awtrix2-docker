@@ -1,11 +1,14 @@
 #!/bin/sh
 
-set -e
+set -eux
 TARGET_FILE=/data/awtrix.jar
 AWTRIX_UPDATE_CHANNEL=${AWTRIX_UPDATE_CHANNEL:-stable}
 AWTRIX_DL_URL=https://blueforcer.de/awtrix/$AWTRIX_UPDATE_CHANNEL/awtrix.jar
 AWTRIX_AUTOUPDATE=${AWTRIX_AUTOUPDATE:-true}
+AWTRIX_LOGGER=${AWTRIX_LOGGER:-stdout}
 
+echo "Welcome to awtrix2-docker!"
+echo "Release Channel for AWTRIX Host is '$AWTRIX_UPDATE_CHANNEL'"
 if [ "$AWTRIX_AUTOUPDATE" = true ] || [ ! -f "$TARGET_FILE" ]; then
     echo "Download Host JAR from $AWTRIX_DL_URL"
     echo "Please wait..."
@@ -21,4 +24,4 @@ else
 fi
 
 echo "Start AWTRIX Host..."
-java -jar $TARGET_FILE  
+java -jar $TARGET_FILE --logger=$AWTRIX_LOGGER
