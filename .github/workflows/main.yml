@@ -1,4 +1,4 @@
-name: CI Workflow
+name: GitHub CI
 
 env:
   DOCKERHUB_TAG: "foorschtbar/awtrix2"
@@ -7,26 +7,17 @@ env:
 
 on:
   push:
-    branches:
-      - master
+  schedule:
+    - cron: 0 0 * * 0
+
+defaults:
+  run:
+    shell: "bash -Eeuo pipefail -x {0}"
 
 jobs:
   main:
     name: Build & Push Docker Images
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - arch: "amd64"
-            platform: "linux/amd64"
-            from: "anapsix/alpine-java:8_jdk"
-          - arch: "arm64"
-            platform: "linux/arm64"
-            from: "arm64v8/openjdk"
-          - arch: "armv7"
-            platform: "linux/arm/v7"
-            from: "armv7/armhf-java8"
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -43,50 +34,28 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
+      - uses: nelonoel/branch-name@v1.0.1
+
+      - name: tag suffix
+        id: tag_suffix
+        run: |
+          if [ ${BRANCH_NAME} == 'develop' ]
+          then
+            echo "::set-output name=suffix::develop"
+          else
+            echo "::set-output name=suffix::latest"
+          fi
+
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: .
-          file: ./Dockerfile
           push: true
-          tags: ${{ env.DOCKERHUB_TAG }}:${{ matrix.arch }}-latest
-          build-args: CI_FROM=${{ matrix.from }}
-          platforms: ${{ matrix.platform }}
+          tags: ${{ env.DOCKERHUB_TAG }}:${{ steps.tag_suffix.outputs.suffix }}
+          platforms: linux/amd64,linux/arm/v7,linux/arm64
 
       - name: Image digests
         run: |
           echo image digest: ${{ steps.docker_build.outputs.digest }}
-
-  manifest:
-    needs: main
-    name: Build & Push Multiarch Manifest
-    runs-on: ubuntu-latest
-    env:
-      DOCKER_CLI_EXPERIMENTAL: enabled
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-
-      - name: Create Docker manifest
-        run: |
-          docker manifest create \
-          ${{ env.DOCKERHUB_TAG }}:latest \
-          --amend ${{ env.DOCKERHUB_TAG }}:amd64-latest \
-          --amend ${{ env.DOCKERHUB_TAG }}:arm64-latest \
-          --amend ${{ env.DOCKERHUB_TAG }}:armv7-latest
-
-      - name: Push manifest to Docker Hub
-        run: |
-          docker manifest push ${{ env.DOCKERHUB_TAG }}:latest
 
   pushreadme:
     runs-on: ubuntu-latest
