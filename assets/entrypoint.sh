@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -eux
+set -e
 TARGET_FILE=/data/awtrix.jar
 AWTRIX_UPDATE_CHANNEL=${AWTRIX_UPDATE_CHANNEL:-stable}
 AWTRIX_DL_URL=https://blueforcer.de/awtrix/$AWTRIX_UPDATE_CHANNEL/awtrix.jar
