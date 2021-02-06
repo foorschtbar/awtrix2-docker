@@ -1,11 +1,16 @@
-FROM alpine:3
+FROM ubuntu:focal
 
 # Install openjdk8
 RUN set -eux; \
-    apk add --no-cache openjdk8-jre
+    apt-get update ; \
+    apt-get upgrade -y ; \
+    apt-get install -y \
+    wget \
+    openjdk-8-jre \
+    openjdk-8-jdk
 
 # Add non-root user and run container as non-root
-RUN adduser -D -H -u 1000 -s /usr/bin/bash awtrix
+RUN useradd -M -u 1000 -s /usr/bin/bash awtrix
 
 # Set workdir and ports
 WORKDIR /data
