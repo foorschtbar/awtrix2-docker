@@ -5,6 +5,7 @@ RUN set -eux; \
     apt-get update ; \
     apt-get upgrade -y ; \
     apt-get install -y \
+    ca-certificates \
     wget \
     openjdk-8-jre \
     openjdk-8-jdk
