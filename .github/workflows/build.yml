@@ -1,4 +1,4 @@
-name: GitHub CI
+name: Build Docker Images
 
 env:
   DOCKERHUB_TAG: "foorschtbar/awtrix2"
